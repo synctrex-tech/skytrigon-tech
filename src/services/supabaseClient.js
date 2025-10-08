@@ -64,13 +64,11 @@ function createSession(user) {
 
 function createStubAuth() {
   let { users, profiles } = ensureLocalLists();
-  let currentSession = createSession(users.find((entry) => entry.isActive));
+  let currentSession = null;
   const listeners = new Set();
 
-  if (!currentSession) {
-    const storedSession = typeof window !== 'undefined'
-      ? safeParse(window.localStorage.getItem(STUB_SESSION_KEY), null)
-      : null;
+  if (typeof window !== 'undefined') {
+    const storedSession = safeParse(window.localStorage.getItem(STUB_SESSION_KEY), null);
     if (storedSession?.user) {
       currentSession = createSession(storedSession.user);
     }
